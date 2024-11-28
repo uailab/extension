@@ -1,0 +1,19 @@
+{
+  "name": "uailab-api",
+  "version": "1.0.0",
+  "description": "API responsavel por gerir dados do UaiLab TJMG",
+  "main": "src/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/uailab/extension.git"
+  },
+  "author": "https://github.com/odutradev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uailab/extension/issues"
+  },
+  "homepage": "https://github.com/uailab/extension#readme"
+}
