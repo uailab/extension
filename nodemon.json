@@ -1,0 +1,6 @@
+{
+    "watch": ["src"],
+    "ext": "ts",
+    "exec": "--loader @esbuild-kit/esm src/server.ts"
+  }
+  
