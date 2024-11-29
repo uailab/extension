@@ -1,5 +1,6 @@
 import chalk from "chalk";
-import loggerConfig from "../../assets/config/logger";
+
+import loggerConfig from "@assets/config/logger";
 
 interface FieldTypes {
   messageColor?: string;
