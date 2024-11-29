@@ -1,6 +1,6 @@
 {
     "watch": ["src"],
     "ext": "ts",
-    "exec": "--loader @esbuild-kit/esm src/server.ts"
+    "exec": "ts-node src/server.ts"
   }
   
