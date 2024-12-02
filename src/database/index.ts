@@ -15,7 +15,6 @@ const database = {
             };
 
             const connected = await mongoose.connect(MONGO_URI);
-            console.log(connected.connection.name)
             
             const clusterName = connected.connection.name;
             logger.info("Database connected: " + clusterName);

@@ -3,15 +3,19 @@ interface ResponseError {
     message: string;
 };
 
-export type ResponseErrorsParams = "internal_error" | "not_user_email";
+export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send";
 
 export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     internal_error: {
         message: "Server Error",
         statusCode: 500
     },
-    not_user_email: {
-        message: "Not user email",
+    no_credentials_send: {
+        message: "No credentials send",
+        statusCode: 401
+    },
+    no_data_send: {
+        message: "No data send",
         statusCode: 401
     },
 };
