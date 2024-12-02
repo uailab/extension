@@ -4,7 +4,7 @@ import { ResponseErrors, ResponseErrorsParams } from "@assets/config/errors";
 import defaultConfig from "@assets/config/default";
 import logger from "./logger";
 
-interface SendErrorParams {
+export interface SendErrorParams {
     code:  ResponseErrorsParams;
     res: Response;
     options?: {};
@@ -18,13 +18,15 @@ const sendError = ({ code, res, error } : SendErrorParams) => {
         if (defaultConfig.logError.message) logger.error(responseError.message);
         if (error && defaultConfig.logError.data) console.log(error);
 
-        return res.status(responseError.statusCode).json(responseError);
+        res.status(responseError.statusCode).json(responseError);
+        return "error";
     } catch (error) {
         logger.error("[sendError] Server error");
         console.log(error);
 
         const serverErrorResponse = ResponseErrors["internal_error"]
-        return res.status(500).json(serverErrorResponse);
+        res.status(500).json(serverErrorResponse);
+        return "error";
     }
 };
 

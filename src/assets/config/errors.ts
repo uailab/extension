@@ -3,11 +3,15 @@ interface ResponseError {
     message: string;
 };
 
-export type ResponseErrorsParams = "internal_error";
+export type ResponseErrorsParams = "internal_error" | "not_user_email";
 
 export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     internal_error: {
         message: "Server Error",
         statusCode: 500
-    }
+    },
+    not_user_email: {
+        message: "Not user email",
+        statusCode: 401
+    },
 };
