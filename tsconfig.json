@@ -8,7 +8,7 @@
     "baseUrl": "./src",
     "paths": {
       "@middlewares/*": ["middlewares/*"],
-      "@resources/*": ["middlewares/*"],
+      "@resources/*": ["resources/*"],
       "@assets/*": ["assets/*"],
       "@database/*": ["database/*"],
       "@utils/*": ["utils/*"],
