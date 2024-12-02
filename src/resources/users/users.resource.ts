@@ -3,6 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { ManageRequestBody } from "@middlewares/manageRequest";
 import usersModel from "@database/models/users";
 import filterObject from "@utils/functions/filterObject";
+import { deleteModel } from "mongoose";
 
 const usersResource = {
     signInExternalAuthUser: async ({ data, manageError }: ManageRequestBody) => {
@@ -58,6 +59,17 @@ const usersResource = {
 
             const newUser = await usersModel.findByIdAndUpdate(user._id, { $set:{ ...updateUserData, lastUpdate: Date.now() } }, { new: true });
             return newUser;
+        } catch (error) {
+            manageError({ code: "internal_error", error });
+        }
+    },
+    deleteUser: async ({ ids, manageError }: ManageRequestBody) => {
+        try {
+            const user = await usersModel.findOne({ id: ids.userID });
+            if (!user) return manageError({ code: "user_not_found" });
+
+            await usersModel.findByIdAndDelete(user._id);
+            return;
         } catch (error) {
             manageError({ code: "internal_error", error });
         }
