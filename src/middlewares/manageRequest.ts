@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import sendError from "@utils/functions/error";
 
 export interface ManageRequestBody {
-    default: {
+    defaultExpress: {
         res: Response;
         req: Request;
     };
@@ -18,16 +18,14 @@ interface ManageRequestParams {
     service: (manageRequestBody: ManageRequestBody) => Promise<any> | any; 
 };
 
-
 const manageRequest = (service: ManageRequestParams["service"]) => {
     return async (req: Request, res: Response) => {
         try {
             const manageRequestBody: ManageRequestBody = {
-                default: { res, req },
+                defaultExpress: { res, req },
                 params: req.params,
                 data: req.body,
                 ids: {},
-
             };
             const result = await service(manageRequestBody);
 
