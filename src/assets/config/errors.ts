@@ -3,7 +3,7 @@ interface ResponseError {
     message: string;
 };
 
-export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send" | "invalid_credentials";
+export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send" | "invalid_credentials" | "no_token" | "token_is_not_valid";
 
 export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     internal_error: {
@@ -20,6 +20,14 @@ export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     },
     invalid_credentials: {
         message: "Invalid Credentials",
+        statusCode: 401
+    },
+    no_token: {
+        message: "No token, authorization denied",
+        statusCode: 400
+    },
+    token_is_not_valid: {
+        message: "Token is not valid",
         statusCode: 401
     },
 };
