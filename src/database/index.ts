@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+import defaultConfig from "@assets/config/default";
 import logger from "@utils/functions/logger";
 
 const database = {
@@ -7,7 +8,7 @@ const database = {
         try {            
             mongoose.set("strictQuery", true);
             
-            const MONGO_URI = process.env.MONGO_URI;
+            const MONGO_URI = defaultConfig.mode == "developing" ? process.env.MONGO_URI_DEV : process.env.MONGO_URI_PRD;
             if (!MONGO_URI) {
                 logger.error("[connectMongoose] No database URI");
                 process.exit(1);
