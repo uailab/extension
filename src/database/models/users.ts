@@ -41,6 +41,9 @@ const usersSchema = new mongoose.Schema({
     },
     lastUpdate: {
         type: Date,
+    },
+    description: {
+        type: String
     }
 
 });

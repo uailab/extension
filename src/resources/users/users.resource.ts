@@ -54,9 +54,9 @@ const usersResource = {
             if (!user) return manageError({ code: "user_not_found" });
 
             const excludedKeys = ['role', 'auth', '_id', 'id'];
-            const updateUserData = filterObject(data.data, excludedKeys);
+            const updateUserData = filterObject(data, excludedKeys);
 
-            const newUser = await usersModel.findByIdAndUpdate(ids.userID, { $set:{ ...updateUserData, lastUpdate: Date.now() } }, { new: true });
+            const newUser = await usersModel.findByIdAndUpdate(user._id, { $set:{ ...updateUserData, lastUpdate: Date.now() } }, { new: true });
             return newUser;
         } catch (error) {
             manageError({ code: "internal_error", error });
