@@ -37,7 +37,9 @@ const manageRequest = (service: ManageRequestParams["service"]) => {
                 params: req.params,
                 data: req.body,
                 manageError,
-                ids: {},
+                ids: {
+                    userID: res.locals?.userID
+                },
             };
             const result = await service(manageRequestBody);
             

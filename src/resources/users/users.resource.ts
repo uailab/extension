@@ -10,10 +10,10 @@ const usersResource = {
             if (!token) return manageError({ code: "no_credentials_send" });
 
             const decoded = jwt.decode(token) as JwtPayload | null;
-            if (!decoded || typeof decoded === 'string') return;
+            if (!decoded || typeof decoded === 'string') return manageError({ code: "invalid_credentials" });
     
             const preferredUsername = decoded.preferred_username as string | undefined;
-            if (!preferredUsername) return manageError({ code: "invalid_credentials" })
+            if (!preferredUsername) return manageError({ code: "invalid_credentials" });
             
             const hasLoggedUser = await usersModel.findOne({ id : preferredUsername });
 
@@ -32,6 +32,17 @@ const usersResource = {
             const internalToken = jwt.sign({ id: preferredUsername }, process.env.SECRET as string);
 
             return { token: internalToken, firstLogin: true };
+
+        } catch (error) {
+            manageError({ code: "internal_error", error });
+        }
+    },
+    getUser: async ({ ids, manageError }: ManageRequestBody) => {
+        try {
+            console.log(ids)
+            
+            //const hasLoggedUser = await usersModel.findOne({ id : preferredUsername });
+
 
         } catch (error) {
             manageError({ code: "internal_error", error });
