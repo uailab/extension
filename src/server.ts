@@ -18,6 +18,6 @@ const server = app.listen(process.env.PORT, async () => {
 });
 
 process.on('SIGINT', () => {
-    logger.error("Server encerrado")
+    logger.error("[server] Server encerrado")
     server.close();
 });

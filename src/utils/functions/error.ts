@@ -20,8 +20,9 @@ const sendError = ({ code, res, error } : SendErrorParams) => {
 
         return res.status(responseError.statusCode).json(responseError);
     } catch (error) {
-        logger.error("Server error");
+        logger.error("[sendError] Server error");
         console.log(error);
+
         const serverErrorResponse = ResponseErrors["internal_error"]
         return res.status(500).json(serverErrorResponse);
     }
