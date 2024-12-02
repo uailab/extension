@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema({
             type: Number
         },
         sub: {
-            type: Number,
+            type: String,
             description: "user id"
         },
         email_verified: {
@@ -26,7 +26,10 @@ const usersSchema = new mongoose.Schema({
             description: "user public id"
         }
     },
-    id: Number
+    id: {
+        unique: true,
+        type: String
+    }
 
 });
 
