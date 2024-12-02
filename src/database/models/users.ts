@@ -29,6 +29,18 @@ const usersSchema = new mongoose.Schema({
     id: {
         unique: true,
         type: String
+    },
+    role: {
+        enum: ["normal", "admin"],
+        default: "normal",
+        type: String,
+    },
+    createAt: {
+        default: Date.now(),
+        type: Date,
+    },
+    lastUpdate: {
+        type: Date,
     }
 
 });
