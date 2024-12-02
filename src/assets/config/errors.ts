@@ -3,7 +3,7 @@ interface ResponseError {
     message: string;
 };
 
-export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send";
+export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send" | "invalid_credentials";
 
 export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     internal_error: {
@@ -16,6 +16,10 @@ export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     },
     no_data_send: {
         message: "No data send",
+        statusCode: 401
+    },
+    invalid_credentials: {
+        message: "Invalid Credentials",
         statusCode: 401
     },
 };

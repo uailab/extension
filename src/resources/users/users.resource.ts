@@ -1,29 +1,36 @@
-import { ManageRequestBody } from "@middlewares/manageRequest";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
-const decodeToken = (token?: string) => {
-    try {
-        if (!token) return undefined;
-        const parts = token.split('.');
-        if (parts.length !== 3) return undefined;
-        const payload = parts[1];
-        const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-        const pad = base64.length % 4;
-        const paddedBase64 = pad ? base64 + '='.repeat(4 - pad) : base64;
-        const decoded = atob(paddedBase64);
-        return JSON.parse(decoded);
-    } catch (error) {
-        return undefined;
-    }
-};
+import { ManageRequestBody } from "@middlewares/manageRequest";
+import usersModel from "@database/models/users";
 
 const usersResource = {
-    signInAuthUser: async ({ data, manageError }: ManageRequestBody) => {
+    signInExternalAuthUser: async ({ data, manageError }: ManageRequestBody) => {
         try {
             const token = data.token;
             if (!token) return manageError({ code: "no_credentials_send" });
 
-            const decodedToken = decodeToken(token);
-            return decodeToken;
+            const decoded = jwt.decode(token) as JwtPayload | null;
+            if (!decoded || typeof decoded === 'string') return;
+    
+            const preferredUsername = decoded.preferred_username as string | undefined;
+            if (!preferredUsername) return manageError({ code: "invalid_credentials" })
+            
+            const hasLoggedUser = await usersModel.findOne({ id : preferredUsername});
+            if (hasLoggedUser){
+                const internalToken = jwt.sign({ id: preferredUsername }, process.env.SECRET as string);
+                return { token: internalToken}
+            };
+
+            const user = new usersModel({
+                auth: decoded,
+                id: preferredUsername
+            });
+            await user.save();
+
+            const internalToken = jwt.sign({ id: preferredUsername }, process.env.SECRET as string);
+
+            return { token: internalToken };
+
         } catch (error) {
             manageError({ code: "internal_error", error });
         }
