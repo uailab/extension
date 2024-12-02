@@ -2,6 +2,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import { ManageRequestBody } from "@middlewares/manageRequest";
 import usersModel from "@database/models/users";
+import filterObject from "@utils/functions/filterObject";
 
 const usersResource = {
     signInExternalAuthUser: async ({ data, manageError }: ManageRequestBody) => {
@@ -39,15 +40,28 @@ const usersResource = {
     },
     getUser: async ({ ids, manageError }: ManageRequestBody) => {
         try {
-            console.log(ids)
-            
-            //const hasLoggedUser = await usersModel.findOne({ id : preferredUsername });
+            const user = await usersModel.findOne({ id: ids.userID });
+            if (!user) return manageError({ code: "user_not_found" });
 
-
+            return user;
         } catch (error) {
             manageError({ code: "internal_error", error });
         }
-    }
+    },
+    updateUser: async ({ ids, data, manageError }: ManageRequestBody) => {
+        try {
+            const user = await usersModel.findOne({ id: ids.userID });
+            if (!user) return manageError({ code: "user_not_found" });
+
+            const excludedKeys = ['role', 'auth', '_id', 'id'];
+            const updateUserData = filterObject(data.data, excludedKeys);
+
+            const newUser = await usersModel.findByIdAndUpdate(ids.userID, { $set:{ ...updateUserData, lastUpdate: Date.now() } }, { new: true });
+            return newUser;
+        } catch (error) {
+            manageError({ code: "internal_error", error });
+        }
+    },
 };
 
 export default usersResource;

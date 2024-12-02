@@ -3,7 +3,14 @@ interface ResponseError {
     message: string;
 };
 
-export type ResponseErrorsParams = "internal_error" | "no_credentials_send" | "no_data_send" | "invalid_credentials" | "no_token" | "token_is_not_valid";
+export type ResponseErrorsParams = 
+"internal_error" | 
+"no_credentials_send" | 
+"no_data_send" | 
+"invalid_credentials" | 
+"no_token" | 
+"token_is_not_valid"|
+"user_not_found"
 
 export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     internal_error: {
@@ -29,5 +36,9 @@ export const ResponseErrors: Record<ResponseErrorsParams, ResponseError> = {
     token_is_not_valid: {
         message: "Token is not valid",
         statusCode: 401
+    },
+    user_not_found: {
+        message: "User not found",
+        statusCode: 404
     },
 };
