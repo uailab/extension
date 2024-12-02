@@ -5,6 +5,7 @@ import chalk from "chalk";
 
 import defaultConfig from "@assets/config/default";
 import logger from "@utils/functions/logger";
+import database from "@database/index";
 import app  from "./app";
 
 const server = app.listen(process.env.PORT, async () => {
@@ -12,12 +13,13 @@ const server = app.listen(process.env.PORT, async () => {
     const mode = defaultConfig.mode;
     if (typeof address === 'object' && address !== null) {
         const host = address.address === '::' ? 'localhost' : address.address;
-        logger.info(`🚀 Server iniciado em: ${chalk.blueBright('http://' + host + ':' + address.port)}`);
+        logger.info(`🚀 Server started in: ${chalk.blueBright('http://' + host + ':' + address.port)}`);
+        await database.connectMongoose();
         logger.info(`mode: ${mode =='developing' ? chalk.green(mode) : chalk.red(mode)}`);
     };
 });
 
 process.on('SIGINT', () => {
-    logger.error("[server] Server encerrado")
+    logger.error("[server] Server end")
     server.close();
 });

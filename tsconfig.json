@@ -10,7 +10,7 @@
       "@middlewares/*": ["middlewares/*"],
       "@resources/*": ["middlewares/*"],
       "@assets/*": ["assets/*"],
-      "@models/*": ["models/*"],
+      "@database/*": ["database/*"],
       "@utils/*": ["utils/*"],
     },
     "esModuleInterop": true,
