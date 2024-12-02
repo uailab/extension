@@ -1,18 +1,43 @@
 import { Request, Response, NextFunction } from "express";
 
+import sendError from "@utils/functions/error";
+
+export interface ManageRequestBody {
+    default: {
+        res: Response;
+        req: Request;
+    };
+    ids: {
+        userID?: string;
+    },
+    params: any;
+    data: any;
+};
+
 interface ManageRequestParams {
-    service: (req: Request, res: Response) => Promise<any> | any; 
-}
+    service: (manageRequestBody: ManageRequestBody) => Promise<any> | any; 
+};
+
 
 const manageRequest = (service: ManageRequestParams["service"]) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response) => {
         try {
-            const result = await service(req, res);
-            if (result) {
-                res.json(result); 
-            }
+            const manageRequestBody: ManageRequestBody = {
+                default: { res, req },
+                params: req.params,
+                data: req.body,
+                ids: {},
+
+            };
+            const result = await service(manageRequestBody);
+
+            if (result?.error){
+                sendError({ code: result.error, res, error: result.data });
+            };
+
+            res.status(200).json(result);
         } catch (error) {
-            next(error); 
+            sendError({ code: "internal_error", res})
         }
     };
 };

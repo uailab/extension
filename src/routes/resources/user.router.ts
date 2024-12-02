@@ -5,6 +5,6 @@ import manageRequest from "@middlewares/manageRequest";
 
 const usersRouter = Router();
 
-usersRouter.get("/", manageRequest(usersResource.getUser))
+usersRouter.post("/", manageRequest(usersResource.getUser))
 
 export default usersRouter;

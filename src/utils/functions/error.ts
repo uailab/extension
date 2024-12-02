@@ -8,7 +8,7 @@ interface SendErrorParams {
     code:  ResponseErrorsParams;
     res: Response;
     options?: {};
-    error: any;
+    error?: any;
 };
 
 const sendError = ({ code, res, error } : SendErrorParams) => {

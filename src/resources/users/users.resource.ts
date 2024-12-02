@@ -1,6 +1,8 @@
+import { ManageRequestBody } from "@middlewares/manageRequest";
+
 const usersResource = {
-    getUser: async () => {
-        console.log("ok")
+    getUser: async ({ data }: ManageRequestBody) => {
+        console.log(data)
     }
 };
 
